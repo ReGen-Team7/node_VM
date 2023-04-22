@@ -14,40 +14,6 @@ provider "azurerm" {
   features {}
 }
 
-# # Create a resource group
-# resource "azurerm_resource_group" "regen-rg" {
-#   name     = "${var.prefix}-rg"
-#   location = var.location
-
-#   tags = {
-#     environment = "${var.env}"
-#   }
-# }
-
-# resource "azurerm_virtual_network" "regen-vn" {
-#   name                = "${var.prefix}-network"
-#   location            = azurerm_resource_group.regen-rg.location
-#   resource_group_name = azurerm_resource_group.regen-rg.name
-#   address_space       = ["10.0.0.0/16"]
-
-#   tags = {
-#     environment = "${var.env}"
-#   }
-# }
-
-# resource "azurerm_subnet" "regen-subnet" {
-#   name                 = "${var.prefix}-subnet"
-#   resource_group_name  = azurerm_resource_group.regen-rg.name
-#   virtual_network_name = azurerm_virtual_network.regen-vn.name
-#   address_prefixes     = ["10.0.1.0/24"]
-# }
-
-# resource "azurerm_network_security_group" "node-sg" {
-#   name                = "${var.prefix}-SecurityGroup1"
-#   location            = "${var.location}"
-#   resource_group_name = "${var.rg_name}"
-# }
-
 resource "azurerm_public_ip" "node-ip" {
   name                = "${var.prefix}-PublicIp1"
   resource_group_name = var.rg_name
@@ -98,7 +64,7 @@ resource "azurerm_network_security_rule" "ssh-2" {
 
 
 resource "azurerm_network_security_rule" "port8080" {
-  name                        = "port8080"
+  name                        = "port-8080"
   priority                    = 103
   direction                   = "Inbound"
   access                      = "Allow"
@@ -135,29 +101,6 @@ resource "azurerm_linux_virtual_machine" "node-vm" {
     version   = "latest"
   }
 
-
-
-  # admin_ssh_key {
-  #   username   = var.admin_username
-  #   public_key = file("/home/adminuser/.ssh/id_rsa.pub")
-  # }
-
-  # connection {
-  #   type        = "ssh"
-  #   user        = "adminuser"
-  #   private_key = file("~/.ssh/id_rsa") #????????????????????????????????
-  #   host        = azurerm_public_ip.node-ip.ip_address
-  # }
-
-  # provisioner "remote-exec" {
-  #   inline = [
-  #     "sudo apt-get update",
-  #     "sudo apt-get install -y docker.io",
-  #     "sudo systemctl start docker",
-  #     "sudo systemctl enable docker",
-  #     "sudo docker run -d -p 8080:8080 your-docker-image-name"
-  #   ]
-  # }
 
   tags = {
     environment = "${var.env}"
