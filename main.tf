@@ -77,6 +77,20 @@ resource "azurerm_network_security_rule" "port8080" {
   network_security_group_name = var.sg_name
 }
 
+resource "azurerm_network_security_rule" "port8080" {
+  name                        = "jenkinsnode"
+  priority                    = 104
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "*"
+  source_port_range           = "*"
+  destination_port_range      = "50000"
+  source_address_prefix       = "*"
+  destination_address_prefix  = "*"
+  resource_group_name         = var.rg_name
+  network_security_group_name = var.sg_name
+}
+
 resource "azurerm_linux_virtual_machine" "node-vm" {
   name                  = "${var.prefix}-vm2"
   resource_group_name   = var.rg_name
