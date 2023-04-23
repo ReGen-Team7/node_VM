@@ -77,7 +77,7 @@ resource "azurerm_network_security_rule" "port8080" {
   network_security_group_name = var.sg_name
 }
 
-resource "azurerm_network_security_rule" "port8080" {
+resource "azurerm_network_security_rule" "jenkinsnode" {
   name                        = "jenkinsnode"
   priority                    = 104
   direction                   = "Inbound"
